@@ -1,0 +1,20 @@
+running egg_info
+creating ../../build/husky_nav/husky_nav.egg-info
+writing ../../build/husky_nav/husky_nav.egg-info/PKG-INFO
+writing dependency_links to ../../build/husky_nav/husky_nav.egg-info/dependency_links.txt
+writing entry points to ../../build/husky_nav/husky_nav.egg-info/entry_points.txt
+writing requirements to ../../build/husky_nav/husky_nav.egg-info/requires.txt
+writing top-level names to ../../build/husky_nav/husky_nav.egg-info/top_level.txt
+writing manifest file '../../build/husky_nav/husky_nav.egg-info/SOURCES.txt'
+reading manifest file '../../build/husky_nav/husky_nav.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/husky_nav/husky_nav.egg-info/SOURCES.txt'
+running build
+running install
+running install_data
+creating /home/abey/Desktop/Repos/OtherProjects/ROS2_Husky_UGV/install/husky_nav/share/husky_nav/launch
+copying launch/husky_gazebo.launch.py -> /home/abey/Desktop/Repos/OtherProjects/ROS2_Husky_UGV/install/husky_nav/share/husky_nav/launch
+running install_egg_info
+Copying ../../build/husky_nav/husky_nav.egg-info to /home/abey/Desktop/Repos/OtherProjects/ROS2_Husky_UGV/install/husky_nav/lib/python3.10/site-packages/husky_nav-0.0.1-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/home/abey/Desktop/Repos/OtherProjects/ROS2_Husky_UGV/build/husky_nav/install.log'
