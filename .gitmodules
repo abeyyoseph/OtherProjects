@@ -1,8 +1,0 @@
-[submodule "ROS2_Husky_UGV/src/husky"]
-	path = ROS2_Husky_UGV/src/husky
-	url = https://github.com/husky/husky.git
-	branch = humble-devel
-[submodule "ROS2_Husky_UGV/src/clearpath"]
-	path = ROS2_Husky_UGV/src/clearpath
-	url = https://github.com/clearpathrobotics/clearpath_common.git
-	branch = humble

@@ -1,24 +1,27 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+import os
+from glob import glob
 
 package_name = 'husky_nav'
 
 setup(
     name=package_name,
-    version='0.0.1',
-    packages=find_packages(),  # This will find the package automatically
+    version='0.0.0',
+    packages=[package_name],
     data_files=[
-        ('share/' + package_name + '/launch', ['launch/husky_gazebo.launch.py']),
+        ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name), glob('launch/*.launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='Your Name',
-    maintainer_email='your_email@example.com',
-    description='A package to navigate the Husky UGV in a custom Gazebo environment.',
-    license='License',
+    maintainer_email='your.email@example.com',
+    description='Package to launch A200 robot in an empty Gazebo world',
+    license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # Add any executable scripts here if applicable
+            'spawn_husky = husky_nav.spawn_husky:main'
         ],
     },
 )
