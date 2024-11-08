@@ -1,3 +1,6 @@
 [submodule "my_virtual_field"]
 	path = ROS2_Husky_UGV/src/virtual_maize_field
 	url = https://github.com/abeyyoseph/virtual_maize_field.git
+[submodule "forked_husky"]
+	path = ROS2_Husky_UGV/src/husky
+	url = https://github.com/abeyyoseph/husky.git
