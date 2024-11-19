@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <!-- This version uses the openai_ros environments -->
+    <rosparam command="load" file="$(find atom_training)/config/atom_wall_params.yaml" />
+
+    <!-- Launch the training system -->
+    <node pkg="atom_training" name="atom_wall_ddqn" type="start_training_wall_DDQN.py" output="screen"/>
+
+</launch>

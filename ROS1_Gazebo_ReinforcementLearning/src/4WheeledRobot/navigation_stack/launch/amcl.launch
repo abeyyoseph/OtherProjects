@@ -1,0 +1,22 @@
+<launch>
+
+  <arg name="base_link_name" default="base_footprint"/>
+
+  <!-- Map Server Arguments -->
+  <arg name="map_file" default="$(find atom)/../maps/map.yaml"/>
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- Arguments -->
+  <arg name="scan_topic"     default="scan"/>
+  <arg name="initial_pose_x" default="-1.5"/>
+  <arg name="initial_pose_y" default="3.0"/>
+  <arg name="initial_pose_z" default="0.0"/>
+
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl">
+
+	<param name="base_frame_id"             value="$(arg base_link_name)"/>
+
+  </node>
+</launch>

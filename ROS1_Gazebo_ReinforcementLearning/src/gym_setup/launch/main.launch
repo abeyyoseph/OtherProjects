@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+
+  <!-- Launch empty Gazebo world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name"  value="$(find gym_setup)/worlds/new_world.world"/>
+      <arg name="use_sim_time" value="true" />
+      <arg name="gui" value="true" />
+      <arg name="paused" value="false" />
+      <arg name="debug" value="false" />
+  </include>
+  
+  <!-- Instantiate the mobile wheeled robot-->
+  <include file="$(find atom)/launch/4_wheeled_robot.launch">	</include>
+
+   <!-- Create the tables and obstacles-->
+   <include file="$(find gym_setup)/launch/just_walls.launch" />
+   <!-- <include file="$(find gym_setup)/launch/objects.launch" /> -->
+
+</launch>

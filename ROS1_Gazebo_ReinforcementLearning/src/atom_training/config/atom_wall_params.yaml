@@ -1,0 +1,37 @@
+atom: #namespace
+    
+    #qlearn parameters
+    alpha: 0.4
+    gamma: 0.85
+    epsilon: 0.95
+    epsilon_discount: 0.99
+    nepisodes: 201
+    nsteps: 200
+
+    # environment parameters
+    running_step: 0.06 # Time for each step
+    wait_time: 0.1 # Time to wait in the reset phases
+
+    n_actions: 3 # We have 3 actions, Forwards,TurnLeft,TurnRight
+
+    speed_step: 1.0 # Time to wait in the reset phases
+
+    linear_forward_speed: 0.5 # Speed for moving foward
+    linear_turn_speed: 0.0 # linear speed when turning
+    angular_speed: 0.1 # Angular speed when turning Left or Right
+    init_linear_forward_speed: 0.0 # Initial linear speed in which we start each episode
+    init_linear_turn_speed: 0.0 # Initial angular speed in shich we start each episode
+    
+    new_ranges: 5 # How many laser readings we jump in each observation reading, the bigger the less laser resolution (144 total)
+    min_range: 0.5 # Minimum meters below wich we consider we have crashed
+    max_laser_value: 6 # Value considered Ok, no wall
+    min_laser_value: 0 # Value considered there is an obstacle or crashed
+    
+    desired_pose:
+      x: 2.0
+      y: 1.0
+      z: 0.0
+    
+    forwards_reward: 20 # Points Given to go forwards
+    heading_reward: 4 # Points Given to turn as action
+    end_episode_points: 200 # Points given when ending an episode in goal position

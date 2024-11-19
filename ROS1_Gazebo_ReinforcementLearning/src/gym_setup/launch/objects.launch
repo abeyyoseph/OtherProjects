@@ -1,0 +1,94 @@
+<launch>
+	<group ns = "box1">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+		
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box1 
+		-x 3 -y -1 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box2">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box2 
+		-x 2 -y 1.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box3">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box3
+		-x 4 -y 1.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box4">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box4 
+		-x 2 -y 4.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box5">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box5
+		-x 3.5 -y 5.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box6">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box6
+		-x 5.5 -y 5.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box7">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box7
+		-x 4.5 -y 4.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box8">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+		
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box8
+		-x 6.5 -y 2.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box9">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/box.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box9
+		-x 7.5 -y 5.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "wall1">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/wall.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model wall1 
+		-x 10.0 -y 2.5 -z 0 -R 0 -P 0 -Y 0 -param robot_description" />
+	</group>
+
+	<group ns = "wall2">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/wall.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model wall2 
+		-x -4.5 -y 2.5 -z 0 -R 0 -P 0 -Y 0 -param robot_description" />
+	</group>
+
+	<group ns = "wall3">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/wall.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model wall3 
+		-x 2.5 -y -4.5 -z 0 -R 0 -P 0 -Y -1.57 -param robot_description" />
+	</group>
+
+	<group ns = "wall4">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find gym_setup)/urdf/wall.xacro'" />
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model wall4 
+		-x 2.5 -y 10 -z 0 -R 0 -P 0 -Y -1.57 -param robot_description" />
+	</group>
+
+
+</launch>
