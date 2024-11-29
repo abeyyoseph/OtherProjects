@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Run the main MoveIt executable with trajectory execution -->
+    <include file="$(find panda_multiple_arms_moveit_config)/launch/move_group.launch">
+        <arg name="allow_trajectory_execution" value="true" />
+        <arg name="moveit_controller_manager" value="ros_control" />
+        <arg name="fake_execution_type" value="interpolate" />
+        <arg name="info" value="true" />
+        <arg name="debug" value="false" />
+        <arg name="pipeline" value="ompl" />
+        <arg name="load_robot_description" value="true" />
+    </include>
+
+    <!-- Start the simulated robot in an empty Gazebo world -->
+    <include file="$(find panda_multiple_arms)/launch/view_panda_multiple_arms_empty_world.launch" />
+
+    <!-- Create the tables and obstacles-->
+    <include file="$(find panda_multiple_arms)/launch/objects.launch" />
+
+    <!-- Start the controllers and robot state publisher-->
+    <include file="$(find panda_multiple_arms)/launch/controller_utils.launch"/>
+
+    <!-- Start moveit_rviz with the motion planning plugin -->
+    <include file="$(find panda_multiple_arms_moveit_config)/launch/moveit_rviz.launch">
+        <arg name="rviz_config" value="$(find panda_multiple_arms_moveit_config)/launch/moveit.rviz" />
+    </include>
+
+    <!-- Instantiate the mobile wheeled robot-->
+    <include file="$(find atom)/launch/4_wheeled_robot.launch">	</include>
+  
+    <include file="$(find panda_multiple_arms)/launch/cube.launch">	</include>
+
+</launch>

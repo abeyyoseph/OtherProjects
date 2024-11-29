@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!--spawn robot arm-->
+    <!-- <param name="second_robot_description" textfile="$(find robot_arm_urdf)/urdf/robot_arm_urdf.urdf"/> -->
+    <param name="robot_description" textfile="$(find robot_arm_urdf)/urdf/robot_arm_urdf.urdf"/>
+
+    <node name="robotarm1_urdf_spawner" pkg="gazebo_ros" type="spawn_model" output="log" 
+    args="-urdf -param robot_description -model robot_arm1 -J joint_1 0.0 -J joint_2 0.0 -J joint_3 0.0 -J joint_4 0.0 -J joint_5 0.0 -J joint_6 0.0 
+    -J joint_7 0.0"> </node>
+
+    <!--Load and launch the joint trajectory controller-->
+    <rosparam file ="$(find robot_arm_urdf)/config/joint_trajectory_controller.yaml" command="load"/>
+    <node name= "controller_spawner" pkg= "controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller 
+    robot_arm_controller hand_ee_controller"/>
+    
+    <!-- Robot State Publisher for TF of each joint: publishes all the current states of the joint, then RViz can visualize -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <!-- <remap from="robot_description" to="second_robot_description" /> -->
+    </node>
+    
+    <node pkg="tf" type="static_transform_publisher" name="second_odom" args="0 0 0 0 0 0 odom base_link 100" />
+
+</launch>

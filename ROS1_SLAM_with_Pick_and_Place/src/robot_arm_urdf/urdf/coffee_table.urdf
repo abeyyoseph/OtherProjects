@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="coffee_table">
+    <link name="base">
+      <inertial>
+        <mass value="21.0" />
+          <inertia
+            ixx="0.192"
+            ixy="-4.9423E-10"
+            ixz="1.2752E-17"
+            iyy="0.192"
+            iyz="2.6417E-18"
+            izz="0.29544" />
+      </inertial>
+      
+      <collision>
+        <geometry>
+          <mesh filename="package://robot_arm_urdf/meshes/aws_CoffeeTable_01_collision.DAE" />
+        </geometry>
+      </collision>
+
+    <visual>
+      <geometry>
+        <mesh filename="package://robot_arm_urdf/meshes/aws_CoffeeTable_01_visual.DAE" />
+      </geometry>
+    </visual>
+
+  </link>
+</robot>

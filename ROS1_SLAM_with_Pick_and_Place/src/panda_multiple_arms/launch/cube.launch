@@ -1,0 +1,28 @@
+<launch>
+
+	<group ns = "cube_table">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find panda_multiple_arms)/urdf/small_box.xacro'" />
+
+        <!-- Send fake joint values-->
+		<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+			<param name="use_gui" value="false"/>
+		</node>
+
+		<!-- Send robot states to tf -->
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+		</node>
+	
+        <arg name="node_start_delay" default="7.0" />  
+        <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model cube_table -x 0.85 -y 0.2 -z 0.5 -R 0 -P 0 -Y 0.78 -param robot_description"
+            launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+	</group>
+
+    <group ns = "cube_atom">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find panda_multiple_arms)/urdf/small_box.xacro'" />
+	
+        <arg name="node_start_delay" default="7.0" />  
+        <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model cube_atom -x 0.3 -y 0.55 -z 0.25 -R 0 -P 0 -Y 0.78 -param robot_description"
+            launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' "/>
+	</group>
+
+</launch>

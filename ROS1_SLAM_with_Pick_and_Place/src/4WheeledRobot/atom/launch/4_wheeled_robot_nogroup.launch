@@ -1,0 +1,23 @@
+<launch>
+    <!-- 4 wheeled robot instantiation -->
+	<!-- Launch other relevant files-->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find atom)/urdf/atom.xacro'" />
+
+    <!-- Send fake joint values-->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="false"/>
+    </node>
+
+    <!-- Send robot states to tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+    </node>
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="log" 
+    args="-urdf -param robot_description -model wheeled_robot1 -x 0 -y 3.0 -z 0 -R 0 -P 0 -Y 0" />
+
+    <!-- <node pkg="tf" type="static_transform_publisher" name="tf_chassis_robot" args="0 0 0 0 0 0 map odom 25" /> -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="tf_chassis_test" args="0 0 0 0 0 0 odom robot_footprint 25" /> -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="tf_chassis_test" args="0 0 0 0 0 0 odom chassis 25" /> -->
+
+</launch>
+		

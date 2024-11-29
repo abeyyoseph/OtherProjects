@@ -1,0 +1,9 @@
+<launch>
+	<!-- Launch other relevant files-->
+	<param name="table_description" textfile="$(find robot_arm_urdf)/urdf/table.urdf"/>
+
+	<!-- Spawn My Robot -->
+	<node name="table_urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+		args="-urdf -param table_description -model table"/>
+
+</launch>

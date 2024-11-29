@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+   
+    <!-- wheeled robot instantiation -->
+    <include file="$(find atom)/launch/4_wheeled_robot.launch">	</include>
+
+    <!-- tables and box instantiation -->
+	<include file="$(find robot_arm_urdf)/launch/obstacles.launch">	</include>
+
+</launch>

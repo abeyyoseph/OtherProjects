@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Launch empty Gazebo world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name"  value="$(find panda_multiple_arms)/worlds/new_world.world"/>
+        <arg name="use_sim_time" value="true" />
+        <arg name="gui" value="true" />
+        <arg name="paused" value="true" />
+        <arg name="debug" value="false" />
+    </include>
+
+    <!-- Load the robot description file-->
+    <param name="robot_description" command="$(find xacro)/xacro  '$(find panda_multiple_arms)/robot_description/panda_multiple_arms.xacro'" />
+
+    <!--  Optional: Spawn the robot at specific pause use the below spawner args, and set the above paused arg to true. This initial pose should 
+        correspond to the initial pose in the robot srdf-->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -param robot_description -model panda_multiple_arms
+    -J right_arm_joint1 0.0
+    -J right_arm_joint2 0.0
+    -J right_arm_joint3 1.0
+    -J right_arm_joint4 0.0
+    -J right_arm_joint5 0.0
+    -J right_arm_joint6 0.0
+    -J right_arm_joint7 0.0
+    -J left_arm_joint1 0.0
+    -J left_arm_joint2 0.0
+    -J left_arm_joint3 1.0
+    -J left_arm_joint4 0.0
+    -J left_arm_joint5 0.0
+    -J left_arm_joint6 0.0
+    -J left_arm_joint7 0.0"/>
+
+</launch>

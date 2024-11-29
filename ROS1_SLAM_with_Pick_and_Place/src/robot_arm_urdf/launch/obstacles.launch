@@ -1,0 +1,86 @@
+<launch>
+	<group ns = "box1">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find robot_arm_urdf)/urdf/box.xacro'" />
+	
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+			<param name="publish_frequency" type="double" value="50.0" />
+			<param name="tf_prefix" value="box1" />
+		</node>
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box1 
+		-x 3 -y 1 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box2">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find robot_arm_urdf)/urdf/box.xacro'" />
+	
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+			<param name="publish_frequency" type="double" value="50.0" />
+			<param name="tf_prefix" value="box2" />
+		</node>
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box2 
+		-x 2 -y 1.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box3">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find robot_arm_urdf)/urdf/box.xacro'" />
+	
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+			<param name="publish_frequency" type="double" value="50.0" />
+			<param name="tf_prefix" value="box3" />
+		</node>
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box3
+		-x 4 -y 2.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box4">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find robot_arm_urdf)/urdf/box.xacro'" />
+	
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+			<param name="publish_frequency" type="double" value="50.0" />
+			<param name="tf_prefix" value="box2" />
+		</node>
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box4 
+		-x 2 -y 4.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "box5">
+		<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find robot_arm_urdf)/urdf/box.xacro'" />
+	
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+			<param name="publish_frequency" type="double" value="50.0" />
+			<param name="tf_prefix" value="box3" />
+		</node>
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model box5
+		-x 3.5 -y 5.5 -z 0 -param robot_description" />
+	</group>
+
+	<group ns = "table1">
+		<param name="robot_description" textfile="$(find robot_arm_urdf)/urdf/coffee_table.urdf" />
+
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+			<param name="publish_frequency" type="double" value="50.0" />
+			<param name="tf_prefix" value="table1" />
+		</node>
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model table1 
+		-x 1.2 -y 0 -z 0 -R 0 -P 0 -Y 1.57 -param robot_description" />
+	</group>
+
+	<group ns = "table2">
+		<param name="robot_description" textfile="$(find robot_arm_urdf)/urdf/coffee_table.urdf" />
+
+		<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+			<param name="publish_frequency" type="double" value="50.0" />
+			<param name="tf_prefix" value="table2" />
+		</node>
+	
+		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model table2 
+		-x 6.5 -y 0 -z 0 -R 0 -P 0 -Y 1.57 -param robot_description" />
+	</group>
+
+</launch>
