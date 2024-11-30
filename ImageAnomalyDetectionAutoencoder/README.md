@@ -72,10 +72,11 @@ IEEE Conference on Computer Vision and Pattern Recognition, 2019
 
 ## Future Work
 
-- Explore more advanced architectures like variational autoencoders or convolutional neural networks with attention mechanisms.
+- Explore more advanced architectures like variational autoencoders.
 - Leverage transfer learning with pre-trained models to enhance feature extraction, especially given the small dataset size.
 - Increase dataset size and diversity to improve model robustness.
 - Automate threshold selection using ROC curves or Precision-Recall curves.
 
+## Reconstructed Image
 ![Reconstructed Image](AutoencoderReconstructedImage.png)
 
