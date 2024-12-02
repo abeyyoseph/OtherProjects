@@ -38,7 +38,7 @@ The model uses a **Vision Transformer (ViT)** as the backbone with transfer lear
   - **Loss Function**: CrossEntropyLoss
   - **Scheduler**: ReduceLROnPlateau (decreases learning rate if loss/validation confidence does not improve for 3 epochs).
   - **Data Augmentation**: Horizontal Flip, Color Jitter, Random Rotation, Random Erasing, Gaussian Blur, Normalize.
-  - **Class Imbalance**: Due to large class imbalance in the labeled training data, a `WeightedRandomSampler` was used to ensure balanced representation of labeled and pseudo-labeled samples in each batch.
+  - **Class Imbalance**: Due to large class imbalance in the labeled training data, a `WeightedRandomSampler` was used to ensure balanced representation of labeled and pseudo-labeled samples in each batch. Additionally, **Weighted CrossEntropy Loss** was used to provide class-specific penalties during backpropagation.
 
 ### Retraining with Pseudo-Labels
 1. Generate pseudo-labels for the unlabeled dataset using the initial model.
