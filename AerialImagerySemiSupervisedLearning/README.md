@@ -19,8 +19,8 @@ The dataset is from the Floodnet challenge (https://www.kaggle.com/datasets/alet
 
 1. Build a classifier that performs well on labeled data.
 2. Use pseudo-labeling to integrate unlabeled data into the training process.
-3. Evaluate the model's performance using the **average confidence score** as the main metric for unlabeled validation data. Since this was a challenge,
-the labels for the test data were not available.
+3. Evaluate the model's performance using the **average confidence score** as the main metric for unlabeled validation data (since this was a challenge,
+the labels for the test data were not available).
 
 ---
 
@@ -50,11 +50,7 @@ The model uses a **Vision Transformer (ViT)** as the backbone with transfer lear
 ## Metrics
 
 ### Main Metric: Average Confidence Score
-- For validation and test datasets (unlabeled), the average confidence score of predictions is computed:
-  \[
-  \text{Average Confidence} = \frac{1}{N} \sum_{i=1}^N \max(\text{Softmax}(outputs[i]))
-  \]
-
+- For validation and test datasets (unlabeled), the average confidence score of predictions is computed using the output of the softmax layer.
 - The best-performing model achieves an **average confidence of 0.9659** on the validation dataset after 20 epochs.
 
 ---
