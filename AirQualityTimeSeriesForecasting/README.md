@@ -4,7 +4,7 @@ This project implements and compares LSTM (Long Short-Term Memory) and GRU (Gate
 
 ## Dataset Description
 
-The dataset spans **1 year** with **24 data points per day**. The developed models focused on accurately predicting NO2/CO concentration and temperature, in Celsius.
+The dataset (from https://www.kaggle.com/datasets/dakshbhalala/uci-air-quality-dataset) spans **1 year** with **24 data points per day**. The developed models focused on accurately predicting NO2/CO concentration and temperature, in Celsius.
 
 ### Preprocessing
 - Data was scaled using Min-Max Scaling to ensure all features fall within the range [0, 1].
