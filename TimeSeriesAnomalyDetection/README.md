@@ -5,6 +5,9 @@
 
 This project focuses on building a **GRU-based anomaly detection model** for analyzing valve flow experiment data. The goal is to detect anomalies in the flow readings of valves using a time-series dataset. The model leverages **Gated Recurrent Units (GRU)** for sequence modeling, and its performance is evaluated using **reconstruction error** and **F1 score**.
 
+## Data Source
+Iurii D. Katser and Vyacheslav O. Kozitsin, “Skoltech Anomaly Benchmark (SKAB).” Kaggle, 2020, doi: 10.34740/KAGGLE/DSV/1693952.
+
 ## Model Architecture
 
 The model architecture is based on **GRU (Gated Recurrent Units)**, a type of recurrent neural network (RNN) particularly well-suited for modeling sequential data. GRUs are effective at capturing long-range dependencies in time-series data, making them ideal for detecting anomalies in valve flow experiments.
