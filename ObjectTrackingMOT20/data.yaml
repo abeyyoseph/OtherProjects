@@ -1,0 +1,8 @@
+train: MOT20Dataset/train/images
+val: MOT20Dataset/validation/images
+test: MOT20Dataset/test/MOT20-07/images
+
+nc: 1
+names: ['person']
+
+
