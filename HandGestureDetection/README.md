@@ -27,10 +27,6 @@ The following decisions were made during the design and training process:
 - **Warm-up**: A 3-epoch warm-up phase for better convergence.
 - **Freeze layers**: 10 initial layers were frozen to preserve the pretrained weights during the early stages of training.
 
-### Evaluation Metrics
-- **Mean Average Precision (mAP)** at IoU=0.50 and 0.50:0.95.
-
-  
 ---
 
 ## Validation Results
