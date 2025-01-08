@@ -1,3 +1,6 @@
 [submodule "SportsPoseEstimation/lightweight-human-pose-estimation.pytorch"]
 	path = SportsPoseEstimation/lightweight-human-pose-estimation.pytorch
 	url = https://github.com/abeyyoseph/lightweight-human-pose-estimation.pytorch.git
+[submodule "SportsPoseEstimation/pytorch-openpose"]
+	path = SportsPoseEstimation/pytorch-openpose
+	url = https://github.com/abeyyoseph/pytorch-openpose.git
