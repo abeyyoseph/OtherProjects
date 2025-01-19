@@ -36,4 +36,4 @@ The objective of this project is to perform semantic segmentation on brain CT sc
 - Due to compute resources, only ten training epochs were performed. With more resources/time, the model would have been trained for a longer amount of time (20-30 epochs).
 
 - An example of the model's predicted mask can be seen below:
-![Prediction](Prediction.jpg)
+![Prediction](Prediction.png)
