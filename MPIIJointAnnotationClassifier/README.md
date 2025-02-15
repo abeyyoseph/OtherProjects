@@ -1,9 +1,7 @@
-# Binary Classification  Task
+# Joint Annotation Binary Classification Task
 
-## Prompt
-You are provided with a dataset of human joint annatotions. Each annotation includes a label indicating whether the human is doing lawn work or playing a sport. __Your task is to build a classifier that predicts whether a human is doing lawn work or playing a sport based on their joint annotations.__  Your classifier should perform as best as possible on new data, evaluated by F1 score
-
-In your on-site interview, you will be asked to explain your model and your process for obtaining it. You will also be asked how you expect your model to perform on new data and why. Limit your work on this task to no more than 2 hours, honor system
+## Overview
+The "mpii_dataset" dataset contains human joint annatotions, along with a label indicating whether the human is doing lawn work or playing a sport.
 
 ## About the dataset
 The dataset is stored in `mpii_dataset.csv`. Each row corresponds to a single person. Each row includes 15 joint annotations:
@@ -17,8 +15,6 @@ The dataset is stored in `mpii_dataset.csv`. Each row corresponds to a single pe
 - left/right knee (l/rknee)
 - left/right ankle (l/rank)
 
-The below image shows the location each joint:
-![093672999](https://github.com/LeonardGrazianGC/cv-take-home-task/assets/127145473/a7bd7894-9d57-41a4-a9dc-7bd77f1ef7b5)
 
 Each annotation includes 3 fields:
 - x: the horizontal distance for the __left side__ of the image, measaured in pixels
@@ -31,9 +27,6 @@ The dataset includes a label indicating if the person is doing lawnwork or playi
 
 The dataset includes 694 examples of lawnwork and 1,587 examples of sports
 
-## Python Example
-In addition to the dataset, this repo includes a simple python example in `example.py`. It loads the dataset, trains a simple classifier on the entire dataset, and prints out the model's 
-confusion matrix and F1 score on the entire dataset. The libaries required to run the example are located in `example_requirements.txt`
 
 ## Bibliography
 Thanks to the creators of the MPII Human Post Dataset
