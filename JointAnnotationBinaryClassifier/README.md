@@ -22,7 +22,8 @@ This project aims to build a **binary classifier** to predict whether a human is
    - **Hyperparameter Tuning** via **RandomizedSearchCV** with a grid of hyperparameters to optimize the model.
 
 3. **Evaluation**:
-   - Used **F1-Score (Macro Average)** as the primary evaluation metric.
+   - Used **F1-Score (Macro Average)** as the primary evaluation metric due to its ability to properly represent performance
+   with a dataset that has significant class imbalance.
    - Secondary metrics included **precision**, **recall**, and **accuracy**.
 
 ## 📝 **Results**
@@ -30,16 +31,8 @@ This project aims to build a **binary classifier** to predict whether a human is
 ### Performance Metrics:
 - **F1 Macro Score**: 0.719
 - **Accuracy**: 77%
-- **Classification Report**:
-          precision    recall  f1-score   support
-
-   Lawn Work       0.65      0.55      0.60       139
-       Sport       0.82      0.87      0.84       318
-
-    accuracy                           0.77       457
-   macro avg       0.73      0.71      0.72       457
-weighted avg       0.77      0.77      0.77       457
-
+- **Confusion Matrix**:
+(ConfusionMatrix.png)
 
 ### Key Insights:
 - **Sport** was classified with high precision and recall, achieving **F1=0.84**.
