@@ -20,6 +20,7 @@ This project aims to build a **binary classifier** to predict whether a human is
    - **Random Forest Classifier** was used for classification.
    - **Pipeline** created combining preprocessing steps (including scaling and imputation) and the classifier.
    - **Hyperparameter Tuning** via **RandomizedSearchCV** with a grid of hyperparameters to optimize the model.
+   - Best performing hyperparameters chosen using 10 cross-validation folds.
 
 3. **Evaluation**:
    - Used **F1-Score (Macro Average)** as the primary evaluation metric due to its ability to properly represent performance
@@ -32,7 +33,7 @@ This project aims to build a **binary classifier** to predict whether a human is
 - **F1 Macro Score**: 0.719
 - **Accuracy**: 77%
 - **Confusion Matrix**:
-!(ConfusionMatrix.png)
+![Results](ConfusionMatrix.png)
 
 ### Key Insights:
 - **Sport** was classified with high precision and recall, achieving **F1=0.84**.
