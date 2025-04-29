@@ -32,7 +32,6 @@ This project aims to build a **binary classifier** to predict whether a human is
 ### Performance Metrics:
 - **F1 Macro Score**: 0.719
 - **Accuracy**: 77%
-- **Confusion Matrix**:
 ![Results](ConfusionMatrix.png)
 
 ### Key Insights:
