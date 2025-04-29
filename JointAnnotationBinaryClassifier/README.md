@@ -2,7 +2,7 @@
 
 This project aims to build a **binary classifier** to predict whether a human is performing **lawn work** or **playing a sport**, based on joint annotation data from the MPII Human Pose dataset.
 
-## 🧑‍💻 **Project Overview**
+## **Project Overview**
 
 - **Dataset**: MPII Human Pose dataset, which includes **46 columns** representing human joint annotations.
 - **Classes**: 
@@ -11,7 +11,7 @@ This project aims to build a **binary classifier** to predict whether a human is
   
 - **Goal**: Train a model to classify human activities as either "lawn work" or "sport" based on joint location features.
   
-## 🔧 **Steps Involved**
+## **Steps Involved**
 1. **Data Preprocessing**:
    - **Stratified Train-Test Split**: Split the data into training and testing sets, ensuring both sets contain representative proportions of the two classes (`Lawn Work` and `Sport`).
    - **Feature Engineering**: Utilized the joint annotation columns, focusing on relevant features for classification.
@@ -26,13 +26,13 @@ This project aims to build a **binary classifier** to predict whether a human is
    with a dataset that has significant class imbalance.
    - Secondary metrics included **precision**, **recall**, and **accuracy**.
 
-## 📝 **Results**
+## **Results**
 
 ### Performance Metrics:
 - **F1 Macro Score**: 0.719
 - **Accuracy**: 77%
 - **Confusion Matrix**:
-(ConfusionMatrix.png)
+!(ConfusionMatrix.png)
 
 ### Key Insights:
 - **Sport** was classified with high precision and recall, achieving **F1=0.84**.
