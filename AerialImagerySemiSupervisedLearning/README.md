@@ -36,7 +36,8 @@ Source: [FloodNet Challenge on Kaggle](https://www.kaggle.com/datasets/aletbm/ae
 ### Phase 1: Base Training on Labeled Data
 - **Optimizer**: AdamW  
 - **Loss**: Weighted CrossEntropyLoss  
-- **Scheduler**: ReduceLROnPlateau (patience = 3)  
+- **Epochs**: 20 
+- **Scheduler**: Warmup and ReduceLROnPlateau (patience = 3)  
 - **Augmentation**:  
   - Horizontal Flip  
   - Vertical Flip  
@@ -46,33 +47,34 @@ Source: [FloodNet Challenge on Kaggle](https://www.kaggle.com/datasets/aletbm/ae
 - **Imbalance Handling**:
   - `WeightedRandomSampler` for balanced batches  
   - Class weights in loss function to penalize underrepresented class
+  - Using F1-macro score as primary metric for saving best performing model. F1-macro should be used because of large class imbalance, and not wanting to be over confident in model that is only predicting the majority class well.
   
 ## Performance
 
-### Best Model Metrics (Epoch 17)
-- **Training Accuracy**: 94.34%  
-- **Training F1 Score**: **0.9429**  
+### Best Model Metrics (Epoch 11)
+- **Training Accuracy**: 92.45%  
+- **Training F1-macro Score**: **0.9228**  
 ![TrainingResults](InitialTraining.png)
 
 ### Phase 2: Semi-Supervised Retraining with Pseudo-Labels
-1. Generate high-confidence pseudo-labels for the unlabeled set using the trained model. Used a confidence threshold of 90% on the model probability output to add to pseudo-labeled dataset.
+1. Generate high-confidence pseudo-labels for the unlabeled set using the trained model. Used a confidence threshold of 90% on the model probability output to add to pseudo-labeled dataset. Added 24 pseudo-labeled samples.
 2. Merge pseudo-labeled data with original labeled dataset.
 3. Retrain the initial model with this combined dataset.
-4. Save the best model based on **validation F1 score**.
+4. Save the best model based on **validation F1-macro score**.
 
 ---
 
 ## Performance
 
-### Best Model Metrics (Epoch 4)
-- **Validation Accuracy**: 91.25%  
-- **Validation F1 Score**: **0.9196**  
-- **Average Confidence**: **0.9332**
+### Best Model Metrics (Epoch 17)
+- **Validation Accuracy**: 86.25%  
+- **Validation F1-macro Score**: **0.7684**  
+- **Average Confidence**: **0.8928**
 
 ### Final Epoch (20)
-- **Validation Accuracy**: 90.00%  
-- **Validation F1 Score**: 0.9093  
-- **Average Confidence**: **0.9485**
+- **Validation Accuracy**: 85.00%  
+- **Validation F1 Score**: 0.7538  
+- **Average Confidence**: **0.8884**
 
 ![RetrainingResults](Retraining.png)
 
