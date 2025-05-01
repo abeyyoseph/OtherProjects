@@ -1,64 +1,91 @@
 # Semi-Supervised Image Classification: Flooded vs. Non-Flooded Aerial Images
 
-This project implements a semi-supervised learning approach to classify aerial images captured by UAVs after a hurricane into two categories: **Flooded** and **Non-Flooded**. The primary challenge is effectively leveraging both labeled and unlabeled data to improve classification accuracy.
+This project implements a **semi-supervised learning (SSL)** approach to classify aerial images captured by UAVs after a hurricane into two categories: **Flooded** and **Non-Flooded**. The primary challenge is effectively leveraging both labeled and unlabeled data to improve classification accuracy without overfitting to the small labeled dataset.
 
 ---
 
 ## Dataset
 
-The dataset is from the Floodnet challenge (https://www.kaggle.com/datasets/aletbm/aerial-imagery-dataset-floodnet-challenge):
+Source: [FloodNet Challenge on Kaggle](https://www.kaggle.com/datasets/aletbm/aerial-imagery-dataset-floodnet-challenge)
 
-- **Labeled Data**: Contains images with known labels for "Flooded" and "Non-Flooded."
-- **Unlabeled Data**: Contains images without labels for semi-supervised training.
-- **Validation Data**: Contains unlabeled images used to compute the average confidence score.
-- **Test Data**: Contains unlabeled images used for model inference.
-
----
-
-## Objectives
-
-1. Build a classifier that performs well on labeled data.
-2. Use pseudo-labeling to integrate unlabeled data into the training process.
-3. Evaluate the model's performance using the **average confidence score** as the main metric for unlabeled validation data (since this was a challenge,
-the labels for the test data were not available).
+- **Labeled Data**: Contains ground-truth annotations for "Flooded" and "Non-Flooded" classes. Used stratified split (80/20) to keep a validation dataset for final model evaluation.
+- **Unlabeled Data**: No labels available; used for pseudo-label generation in SSL.
+- **Test Data**: Held-out dataset for final inference; also unlabeled.
 
 ---
 
-## Model Architecture
+## Project Goals
 
-The model uses a **Vision Transformer (ViT)** as the backbone with transfer learning. The final classification layer is replaced with a fully connected layer and fine-tuned for the specific task.
+1. **Develop a robust classifier** using limited labeled data.
+2. **Incorporate unlabeled data** using pseudo-labeling to enhance learning.
+3. **Track model quality** using F1 score/average confidence on labeled validation data.
+4. **Address class imbalance** using sampling and weighted loss techniques.
+
+---
+
+## Model Overview
+
+- **Backbone**: Pretrained **Vision Transformer (ViT-Base, Patch16)** via transfer learning.
+- **Head**: Replaced final classification layer with a task-specific fully connected head.
+- **Fine-tuning**: End-to-end training on both labeled and pseudo-labeled data.
 
 ---
 
 ## Training Strategy
 
-### Initial Training
-- The model is trained on the labeled data with the following setup:
-  - **Optimizer**: AdamW
-  - **Loss Function**: CrossEntropyLoss
-  - **Scheduler**: ReduceLROnPlateau (decreases learning rate if loss/validation confidence does not improve for 3 epochs).
-  - **Data Augmentation**: Horizontal Flip, Color Jitter, Random Rotation, Random Erasing, Gaussian Blur, Normalize.
-  - **Class Imbalance**: Due to large class imbalance in the labeled training data, a `WeightedRandomSampler` was used to ensure balanced representation of labeled and pseudo-labeled samples in each batch. Additionally, **Weighted CrossEntropy Loss** was used to provide class-specific penalties during backpropagation.
+### Phase 1: Base Training on Labeled Data
+- **Optimizer**: AdamW  
+- **Loss**: Weighted CrossEntropyLoss  
+- **Scheduler**: ReduceLROnPlateau (patience = 3)  
+- **Augmentation**:  
+  - Horizontal Flip  
+  - Vertical Flip  
+  - Random Rotation  
+  - Color Jitter  
+  - Normalize  
+- **Imbalance Handling**:
+  - `WeightedRandomSampler` for balanced batches  
+  - Class weights in loss function to penalize underrepresented class
+  
+## Performance
 
-### Retraining with Pseudo-Labels
-1. Generate pseudo-labels for the unlabeled dataset using the initial model.
-2. Combine labeled data and pseudo-labeled data into an augmented dataset.
-3. Retrain the model on the augmented dataset, saving the best-performing model based on validation confidence.
+### Best Model Metrics (Epoch 17)
+- **Training Accuracy**: 94.34%  
+- **Training F1 Score**: **0.9429**  
+![TrainingResults](InitialTraining.png)
+
+### Phase 2: Semi-Supervised Retraining with Pseudo-Labels
+1. Generate high-confidence pseudo-labels for the unlabeled set using the trained model. Used a confidence threshold of 90% on the model probability output to add to pseudo-labeled dataset.
+2. Merge pseudo-labeled data with original labeled dataset.
+3. Retrain the initial model with this combined dataset.
+4. Save the best model based on **validation F1 score**.
 
 ---
 
-## Metrics
+## Performance
 
-### Main Metric: Average Confidence Score
-- For validation and test datasets (unlabeled), the average confidence score of predictions is computed using the output of the softmax layer.
-- The best-performing model achieves an **average confidence of 0.9659** on the validation dataset after 20 epochs.
+### Best Model Metrics (Epoch 4)
+- **Validation Accuracy**: 91.25%  
+- **Validation F1 Score**: **0.9196**  
+- **Average Confidence**: **0.9332**
+
+### Final Epoch (20)
+- **Validation Accuracy**: 90.00%  
+- **Validation F1 Score**: 0.9093  
+- **Average Confidence**: **0.9485**
+
+![RetrainingResults](Retraining.png)
+
+The model achieved **excellent generalization** with stable validation F1 and steadily increasing prediction confidence, indicating strong pseudo-label reliability.
 
 ---
 
+## 🔮 Future Work
 
-## Future Work
-
-1. Experiment with alternative semi-supervised learning techniques (e.g., Mean Teacher, FixMatch).
-2. Explore using a different backbone model (e.g., ResNet or EfficientNet) to compare performance.
-3. Optimize the pseudo-label confidence threshold to balance between quality and quantity of pseudo-labeled data.
+1. Implement advanced SSL techniques:
+   - [ ] Mean Teacher  
+   - [ ] FixMatch  
+   - [ ] Consistency regularization  
+2. Compare ViT performance with CNN-based backbones (e.g., **ResNet**, **EfficientNet**).
+3. Calibrate or tune pseudo-labeling confidence thresholds to optimize label quality/coverage trade-off.
 
