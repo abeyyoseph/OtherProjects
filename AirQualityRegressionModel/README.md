@@ -13,7 +13,7 @@ The primary goal of this project is to predict **Nitrogen_Dioxide_Concentration*
 4. **Feature Importance**: Investigate which features contribute the most to the model's predictions.
 
 ## Data Split
-Since this is a regression problem and stratified splitting is typically used for classification, we implemented a binning approach to simulate stratification. The continuous target variable, Nitrogen_Dioxide_Concentration, was divided into 10 quantile-based bins using pandas.qcut. T
+Since this is a regression problem and stratified splitting is typically used for classification, a binning approach was implemented to simulate stratification. The continuous target variable, Nitrogen_Dioxide_Concentration, was divided into 10 quantile-based bins using pandas.qcut.
 - Applied a stratified split of the dataset into train and test using these bins, which allowed for maintaining a balanced distribution of NO₂ concentration levels across the training and testing datasets, ensuring better generalization and evaluation consistency.
 
 ### Model Selection
