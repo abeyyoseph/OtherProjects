@@ -38,7 +38,7 @@ The GRU model is a simpler alternative to LSTM with fewer parameters, relying on
 - Architecture:
   - Input Layer
   - Multiple Recurrent Layers (LSTM or GRU)
-  - Dropout (0.2 for regularization)
+  - Dropout (0.4 for regularization)
   - Fully Connected Output Layer
 - Activation Functions: ReLU for intermediate layers, linear for output.
 
@@ -75,7 +75,7 @@ Three metrics were used for evaluation:
 | LSTM       | 24          | 2      | 4          | 0.0010     | 0.0454     | 0.5305    |
 
 ### Observations
-- The **LSTM model** slightly outperformed the LSTM model in terms of MSE, MAE, and R².
+- The **LSTM model** slightly outperformed the GRU model in terms of MSE, MAE, and R².
 - Performance improvements stabilized around 40 epochs for both the training and validation sets.
 ![TrainingResults](LossPlot.png)
 
