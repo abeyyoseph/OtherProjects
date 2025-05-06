@@ -1,14 +1,28 @@
-# LSTM and GRU Models for Time-Series Prediction
+# Nitrogen Dioxide Concentration Forecasting using LSTM/GRU-based Time Series Models
 
-This project implements and compares LSTM (Long Short-Term Memory) and GRU (Gated Recurrent Unit) models for multivariate time-series prediction. The goal is to predict the next set of time-series values based on the historical sequence of data points. 
+
+This project implements and compares LSTM (Long Short-Term Memory) and GRU (Gated Recurrent Unit) models for time-series prediction of nitrogen dioxide concentration. 
+
+## Goals
+
+- Build a time series model to predict hourly NO₂ concentration levels.
+- Improve model performance through hyperparameter tuning, data preprocessing, and custom loss functions.
+- Accurately capture both typical trends and high-concentration outliers in the target variable.
 
 ## Dataset Description
 
-The dataset (from https://www.kaggle.com/datasets/dakshbhalala/uci-air-quality-dataset) spans **1 year** with **24 data points per day**. The developed models focused on accurately predicting NO2/CO concentration and temperature, in Celsius.
+The dataset (from https://www.kaggle.com/datasets/dakshbhalala/uci-air-quality-dataset) contains 12 numerical sensor and pollutant readings (e.g., CO, NMHC, Benzene) spanning **1 year** with **24 data points per day**. 
 
-### Preprocessing
-- Data was scaled using Min-Max Scaling to ensure all features fall within the range [0, 1].
-- The time-series data was split into **train**, **validation**, and **test** sets, maintaining the temporal order.
+## Data Preprocessing
+
+1. **Missing Value Handling**: Imputed using column means.
+2. **Scaling**:
+   - `MinMaxScaler` used initially.
+   - Switched to **log transformation** for the target variable to improve performance on very small and very large concentration values.
+3. **Cyclical Features**:
+   - Encoded `hour`, `day of week`, and `month` using sine and cosine transforms to preserve temporal continuity.
+4. **Train/Validation/Test Split**: Sequential split respecting time order.
+
 
 ## Model Architectures
 
@@ -29,19 +43,23 @@ The GRU model is a simpler alternative to LSTM with fewer parameters, relying on
 - Activation Functions: ReLU for intermediate layers, linear for output.
 
 ## Hyperparameters
-- Sequence Length: Tested multiple values, such as 24, 48, and 168.
+- Sequence Length: Tested multiple values, such as 12, 24, 48, and 168.
 - Hidden Sizes: [16, 32, 48]
 - Number of Layers: [1, 2, 3]
-- Batch Sizes: [8, 16, 32]
+- Batch Sizes: [4, 8, 16, 32]
 - Learning Rate: 0.001
 - Weight Decay: 0.01 (L2 regularization)
-- Optimizer: Adam
-- Loss Function: Mean Squared Error (MSE)
-- Regularization: Dropout (0.2)
+- Optimizer: AdamW
+- Regularization: Dropout (0.4)
+
+## Custom Weighted MSE Loss
+
+To handle underperformance on low/high concentration outliers, a **Weighted MSE Loss** was introduced that doubled the weight of target values which were larger than the 75th percentile NO2 concentration value.
+
 
 ## Training
-- Training was conducted for **50 epochs** with an early stopping mechanism based on validation loss (patience = 5).
-- A **ReduceLROnPlateau** scheduler was used to dynamically adjust the learning rate when validation loss plateaued.
+- Training was conducted for **75 epochs**.
+- A **ReduceLROnPlateau** scheduler was used to dynamically adjust the learning rate when validation loss plateaued for 4 straight epochs.
 - Best model weights were saved during training based on validation loss.
 
 ### Metrics
@@ -54,19 +72,23 @@ Three metrics were used for evaluation:
 
 | Model      | Hidden Size | Layers | Batch Size | MSE (Test) | MAE (Test) | R² (Test) |
 |------------|-------------|--------|------------|------------|------------|-----------|
-| GRU        | 16          | 1      | 32         | 0.0190     | 0.0710     | 0.7053    |
-| LSTM       | 16          | 1      | 32         | 0.0215     | 0.0753     | 0.6921    |
+| LSTM       | 24          | 2      | 4          | 0.0010     | 0.0454     | 0.5305    |
 
 ### Observations
-- The **GRU model** slightly outperformed the LSTM model in terms of MSE, MAE, and R².
-- Performance improvements stabilized early in training (around 6-7 epochs), suggesting that further hyperparameter tuning or additional regularization might be beneficial.
+- The **LSTM model** slightly outperformed the LSTM model in terms of MSE, MAE, and R².
+- Performance improvements stabilized around 40 epochs for both the training and validation sets.
+![TrainingResults](LossPlot.png)
 
 ## Key Design Decisions
-1. **Sequence Length**: Based on data granularity (24 data points/day), a weekly sequence length (168) was selected to capture longer patterns.
-2. **Comparison of Models**: Both GRU and LSTM were tested to assess which model handled the task better.
-3. **Dynamic Learning Rate**: A scheduler adjusted the learning rate based on validation loss to ensure stable convergence.
-4. **Evaluation Metrics**: Multiple metrics were employed to provide a comprehensive understanding of the model's performance.
-5. **Early Stopping**: Prevented overfitting by stopping training once validation performance stopped improving.
+1. **Comparison of Models**: Both GRU and LSTM were tested to assess which model handled the task better.
+2. **Dynamic Learning Rate**: A scheduler adjusted the learning rate based on validation loss to ensure stable convergence.
+3. **Evaluation Metrics**: Multiple metrics were employed to provide a comprehensive understanding of the model's performance.
+4. **Log-transforming** the target helped reduce skew and improve regression stability.
+5. The **weighted loss** significantly boosted performance on critical outliers.
+
+## Predicted vs Actual Values
+Plotting the actual versus predicted values shows that the model has a tendency to under-estimate larger cocentration values, but is handling smaller values relatively well. Further tuning of the threshold used in the weighted MSE loss could potentially improve this behavior.
+![Comparison](Comparison.png)
 
 ## Future Work
 - **Explore Deeper Architectures**: Investigate deeper LSTM and GRU architectures for further improvements.
