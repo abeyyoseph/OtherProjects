@@ -7,6 +7,7 @@ This project implements a Convolutional Neural Network (CNN) for binary classifi
 The dataset consists of labeled medical images for two classes:
 - `Benign`
 - `Cancer`  
+
 The dataset was split into three sets using a **stratified split** to ensure equal class distribution:
 - **Training Set**: 70% of the data
 - **Validation Set**: 20% of the data
@@ -39,7 +40,7 @@ The final fully connected layers use dropout to further regularize the model.
 - Loss Function: Weighted Cross Entropy
 - Scheduler: Warmup followed by ReduceLROnPlateau
 
-To further address class imbalance, a **WeightedRandomSampler** was used in the training set to ensure that minority class samples were not underrepresented during training. Additionally, **Weighted CrossEntropy Loss** was used to provide class-specific penalties during backpropagation.
+To further address class imbalance, a **WeightedRandomSampler** was used in the training set to ensure that minority class samples were not underrepresented during training. Additionally, **Weighted CrossEntropy Loss** was used to provide class-specific penalties during backpropagation. The F1 score was used as the primary metric for classifying the performance of the model while training, due to its ability to properly assess performance with class imbalance.
 
 ## Training Results
 ### Metrics
@@ -71,6 +72,6 @@ To further address class imbalance, a **WeightedRandomSampler** was used in the 
 - F1 Score: 0.6814
 
 ## Summary
-The CNN achieved good general performance, with better recall on cancer and higher precision on benign. Weighted loss and data augmentation proved to be crucial for performance improvements. Due to the large dataset and resource constraints, training was limited to 10 epochs. Future improvements may include threshold tuning, focal loss, or fine-tuning the learning rate scheduler to adapt more dynamically.
+The CNN achieved good general performance, with better recall on cancer and higher precision on benign. With a task focused on identification of a disease, recall performance is more heavily desired than precision. Weighted loss and data augmentation proved to be crucial for performance improvements. Due to the large dataset and resource constraints, training was limited to 10 epochs. Future improvements may include threshold tuning, focal loss, or fine-tuning the learning rate scheduler to adapt more dynamically.
 
 
