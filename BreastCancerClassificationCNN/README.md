@@ -1,15 +1,25 @@
 # Breast Cancer Classification using CNN
 
 ## Overview
-This project implements a Convolutional Neural Network (CNN) to classify histopathology images (from https://www.kaggle.com/datasets/paultimothymooney/breast-histopathology-images) as either **cancerous** or **benign**. The dataset consists of small, color images of size 50x50 pixels. The model is designed to address class imbalance, optimize performance, and avoid overfitting while maintaining computational feasibility.
+This project implements a Convolutional Neural Network (CNN) for binary classification of breast histopathology images (from https://www.kaggle.com/datasets/paultimothymooney/breast-histopathology-images) as either **cancerous** or **benign**. The dataset consists of small, color images of size 50x50 pixels. The model is designed to address class imbalance, optimize performance, and avoid overfitting while maintaining computational feasibility.
 
 ## Dataset and Preprocessing
+The dataset consists of labeled medical images for two classes:
+- `Benign`
+- `Cancer`
 The dataset was split into three sets using a **stratified split** to ensure equal class distribution:
 - **Training Set**: 70% of the data
 - **Validation Set**: 20% of the data
 - **Test Set**: 10% of the data
 
-To further address class imbalance, a **WeightedRandomSampler** was used in the training set to ensure that minority class samples were not underrepresented during training. Additionally, **Weighted CrossEntropy Loss** was used to provide class-specific penalties during backpropagation.
+## Data Augmentation
+To improve generalization, the following augmentations were applied during training:
+- Random horizontal and vertical flips
+- Random rotations
+- Random resized cropping
+- Normalization using mean and std of the dataset
+
+These augmentations helped increase robustness and mitigate overfitting.
 
 ## Architecture
 The CNN is composed of three convolutional blocks followed by fully connected layers. Each convolutional block consists of:
@@ -21,6 +31,15 @@ The CNN is composed of three convolutional blocks followed by fully connected la
 
 The final fully connected layers use dropout to further regularize the model.
 
+## ⚙️ Hyperparameters
+- Optimizer: AdamW
+- Learning Rate: Warmup from `0.000333` → `0.001`, plateau reduction on stagnation
+- Epochs: 10
+- Batch Size: 32
+- Loss Function: Weighted Cross Entropy
+- Scheduler: Warmup followed by ReduceLROnPlateau
+
+To further address class imbalance, a **WeightedRandomSampler** was used in the training set to ensure that minority class samples were not underrepresented during training. Additionally, **Weighted CrossEntropy Loss** was used to provide class-specific penalties during backpropagation.
 
 ## Training Results
 ### Metrics
@@ -32,10 +51,26 @@ The final fully connected layers use dropout to further regularize the model.
 | Recall           | 0.7834   |
 | F1 Score         | 0.7937   |
 
----
+![TrainingResults](InitialTraining.png)
 
-## Future Improvements
-- Experiment with other activation functions such as **ELU** or **Mish** for better gradient flow.
-- Fine-tune the learning rate scheduler to adapt more dynamically.
----
+## Test Results
+- **Accuracy**: 75.65%
+- **Precision**: 0.7484
+- **Recall**: 0.8050
+- **F1 Score**: 0.7422
+
+### 📊 Per-Class Metrics
+#### Benign
+- Precision: 0.9547
+- Recall: 0.6928
+- F1 Score: 0.8030
+
+#### Cancer
+- Precision: 0.5420
+- Recall: 0.9171
+- F1 Score: 0.6814
+
+## Summary
+The CNN achieved good general performance, with better recall on cancer and higher precision on benign. Weighted loss and data augmentation were crucial. Future improvements may include threshold tuning, focal loss, or fine-tuning the learning rate scheduler to adapt more dynamically.
+
 
