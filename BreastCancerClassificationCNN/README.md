@@ -1,4 +1,4 @@
-# Breast Cancer Classification using CNN
+# Breast Cancer Histopathology Image Binary Classification using CNN
 
 ## Overview
 This project implements a Convolutional Neural Network (CNN) for binary classification of breast histopathology images (from https://www.kaggle.com/datasets/paultimothymooney/breast-histopathology-images) as either **cancerous** or **benign**. The dataset consists of small, color images of size 50x50 pixels. The model is designed to address class imbalance, optimize performance, and avoid overfitting while maintaining computational feasibility.
@@ -6,7 +6,7 @@ This project implements a Convolutional Neural Network (CNN) for binary classifi
 ## Dataset and Preprocessing
 The dataset consists of labeled medical images for two classes:
 - `Benign`
-- `Cancer`
+- `Cancer`  
 The dataset was split into three sets using a **stratified split** to ensure equal class distribution:
 - **Training Set**: 70% of the data
 - **Validation Set**: 20% of the data
@@ -31,7 +31,7 @@ The CNN is composed of three convolutional blocks followed by fully connected la
 
 The final fully connected layers use dropout to further regularize the model.
 
-## ⚙️ Hyperparameters
+## Hyperparameters
 - Optimizer: AdamW
 - Learning Rate: Warmup from `0.000333` → `0.001`, plateau reduction on stagnation
 - Epochs: 10
@@ -51,7 +51,7 @@ To further address class imbalance, a **WeightedRandomSampler** was used in the 
 | Recall           | 0.7834   |
 | F1 Score         | 0.7937   |
 
-![TrainingResults](InitialTraining.png)
+![LossPlots](LossPlots.png)
 
 ## Test Results
 - **Accuracy**: 75.65%
@@ -71,6 +71,6 @@ To further address class imbalance, a **WeightedRandomSampler** was used in the 
 - F1 Score: 0.6814
 
 ## Summary
-The CNN achieved good general performance, with better recall on cancer and higher precision on benign. Weighted loss and data augmentation were crucial. Future improvements may include threshold tuning, focal loss, or fine-tuning the learning rate scheduler to adapt more dynamically.
+The CNN achieved good general performance, with better recall on cancer and higher precision on benign. Weighted loss and data augmentation proved to be crucial for performance improvements. Due to the large dataset and resource constraints, training was limited to 10 epochs. Future improvements may include threshold tuning, focal loss, or fine-tuning the learning rate scheduler to adapt more dynamically.
 
 
