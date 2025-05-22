@@ -1,6 +1,6 @@
 # Autoencoder for Anomaly Detection in Manufacturing Images
 
-This project focuses on developing an autoencoder for anomaly detection in manufacturing images. The autoencoder is trained to reconstruct normal images, with reconstruction error used as a criterion for anomaly detection.
+This project implements an autoencoder-based approach for unsupervised anomaly detection in drug capsule manufacturing images. The model is trained to reconstruct normal samples, and deviations in reconstruction quality are used to identify potential anomalies.
 
 ## MVTEC Anomaly Detection Dataset Citation
 Paul Bergmann, Michael Fauser, David Sattlegger, and Carsten Steger,
@@ -13,62 +13,67 @@ IEEE Conference on Computer Vision and Pattern Recognition, 2019
 - **Goal**: Detect anomalies in drug capsule images by identifying high reconstruction errors from an autoencoder model.
 
 - **Dataset**:
-  - 219 training images, all taken from consistent conditions (distance, orientation, etc.).
-  - Test dataset includes images with and without anomalies.
+  - Using a subset of the MVTEC dataset that features images of drug capsules.
+  - Training set contains 219 clean (non-defective) images captured under consistent conditions (distance, orientation, etc.).
+  - Test dataset includes both normal and anomalous samples (e.g., cracks, contamination, or foreign objects)..
+  - Split the training images into a training and validation set (80/20 split).
 
 ## Autoencoder Design
-
 - **Architecture**:
   - **Encoder**:
-    - 3 convolutional layers with strided convolutions for downsampling.
-    - Channel progression: \(1 \rightarrow 32 \rightarrow 64 \rightarrow 128).
+    - 4 convolutional layers with strided convolutions for downsampling.
+    - Channel progression: 1->32->64->128->256.
     - ReLU activation and Batch Normalization after each convolution.
-    - Dropout applied to encoder to prevent overfitting.
+    - Slight dropout of 0.1 applied to encoder to prevent overfitting.
   - **Decoder**:
-    - 3 deconvolutional layers mirroring the encoder's channel progression.
+    - 4 deconvolutional layers mirroring the encoder's channel progression.
     - ReLU activation and Batch Normalization after each layer, except the final layer.
     - Final layer uses a Sigmoid activation to normalize outputs to \([0, 1]\).
-  - **Loss Function**: Mean Squared Error (MSE) between input and reconstructed images.
-
+  
 - **Design Decisions**:
   - Initial experiments with max pooling layers were reverted in favor of strided convolutions, which produced sharper reconstructions.
-  - Depth of the encoder-decoder architecture was fine-tuned to avoid overfitting, given the small dataset size.
-  - Batch size decreased from 32 to 16, improving reconstruction quality for the small dataset.
+  - Depth of the encoder-decoder architecture was fine-tuned to avoid overfitting, given the small dataset size. Initially only three convolutional layers were employed, but the model was underfitting.
+  - Batch size decreased from 32 to 16 to 8, improving reconstruction quality for the small dataset.
+  - Tested different resize dimensions for the images being fed into the autoencoder and settled on 256x256 that seemed to best balance computing resources with performance
 
 ## Training Process
 
 - **Optimization**:
-  - Optimizer: Adam with weight decay (L2 regularization).
+  - Optimizer: AdamW with weight decay of 0.001 (L2 regularization).
   - Learning Rate: \(0.001\) with ReduceLROnPlateau scheduler to dynamically adjust learning rate based on validation loss.
 - **Data Augmentation**:
-  - Due to the uniformity of the dataset, the only transforms applied were converting to grayscale and resize to 512x512.
-- **Epochs**: Trained for 100 epochs, saving the best model based on training loss.
+  - Due to the uniformity of the dataset, the only transforms applied were converting to grayscale and resize to 256x256.
+- **Epochs**: Trained for 150 epochs, saving the best model based on validation loss.
+- **Loss Function**: Mean Squared Error (MSE) between input and reconstructed images.
+- **Save Model**: Save the best performing model based on validation loss.
+
+- The below plot shows that the Autoencoder converged to a solution around epoch 50 and was steady throughout the remaining of the training.
+![TrainingResults](TrainingProgress.png)
 
 ## Anomaly Detection
 
 - **Reconstruction Error**:
   - Reconstruction error is calculated as the pixel-wise mean squared error between the input and reconstructed images.
-  - A threshold is used to classify images as normal or anomalous.
-
-- **Threshold Tuning**:
-  - Histograms of reconstruction errors guided threshold selection.
-  - Experimented with thresholds (\(0.0001\), \(7.5e-05\), \(5e-05\)) to optimize precision, recall, and F1 score.
-  - The **optimal threshold** depends on the requirements of the problem:
-    - **Minimizing false negatives**: Use a lower threshold to ensure anomalies are detected, at the cost of more false positives.
-    - **Minimizing false positives**: Use a higher threshold to avoid false alarms, at the cost of missing some anomalies.
-
-- **Performance Metrics**:
-  - Accuracy, Precision, Recall, and F1 Score evaluated on the test set.
+  - A tunable threshold is used to classify images as normal or anomalous.
+  - A tunable threshold to classify images as normal or anomalous based on reconstruction MSE was selected by maximizing the F1 score on the test set using the precision-recall curve.
 
 ## Results
+- **Precision-Recall Curve**:
+- A precision-recall curve was constructed to determine the best anomaly threshold for maximizing the F1-score of the data on the test set.
 
-- **Best Reconstruction Quality**:
-  - Achieved after reducing batch size to 16.
-  - Small reconstruction errors for normal images (\(< 0.00075\)).
+![PRCurve](PR_plot.png)
 
-- **Anomaly Detection Performance**:
-  - Precision, recall, and F1 scores varied significantly with the threshold.
-  - Threshold tuning remains critical for optimizing detection performance.
+- **Performance Metrics**:
+  - Accuracy, Precision, Recall, and F1 Score were evaluated on the best threshold.
+  
+### Test Set Metrics (Threshold: MSE = 0.000064)
+- **Accuracy**: 81.82%  
+- **Precision**: 82.44%  
+- **Recall**: 99.08%  
+- **F1 Score**: **0.90**  
+- **AUC**: **0.8119**
+
+- These results demonstrate the autoencoder's strong ability to detect anomalies with high recall, making it suitable for safety-critical inspection tasks.
 
 ## Future Work
 
