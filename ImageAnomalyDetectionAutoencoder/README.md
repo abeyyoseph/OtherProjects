@@ -54,7 +54,6 @@ IEEE Conference on Computer Vision and Pattern Recognition, 2019
 
 - **Reconstruction Error**:
   - Reconstruction error is calculated as the pixel-wise mean squared error between the input and reconstructed images.
-  - A tunable threshold is used to classify images as normal or anomalous.
   - A tunable threshold to classify images as normal or anomalous based on reconstruction MSE was selected by maximizing the F1 score on the test set using the precision-recall curve.
 
 ## Results
@@ -66,12 +65,12 @@ IEEE Conference on Computer Vision and Pattern Recognition, 2019
 - **Performance Metrics**:
   - Accuracy, Precision, Recall, and F1 Score were evaluated on the best threshold.
   
-### Test Set Metrics (Threshold: MSE = 0.000064)
+### Test Set Metrics (Best Threshold: MSE = 0.000064)
 - **Accuracy**: 81.82%  
 - **Precision**: 82.44%  
 - **Recall**: 99.08%  
+- **AUC**: 0.8119  
 - **F1 Score**: **0.90**  
-- **AUC**: **0.8119**
 
 - These results demonstrate the autoencoder's strong ability to detect anomalies with high recall, making it suitable for safety-critical inspection tasks.
 
@@ -80,7 +79,7 @@ IEEE Conference on Computer Vision and Pattern Recognition, 2019
 - Explore more advanced architectures like variational autoencoders.
 - Leverage transfer learning with pre-trained models to enhance feature extraction, especially given the small dataset size.
 - Increase dataset size and diversity to improve model robustness.
-- Automate threshold selection using ROC curves or Precision-Recall curves.
+- Increase depth of the Autoencoder or the size of images input to Autoencoder to improve detail in the reconstructed images.
 
 ## Reconstructed Image
 ![Reconstructed Image](AutoencoderReconstructedImage.png)
