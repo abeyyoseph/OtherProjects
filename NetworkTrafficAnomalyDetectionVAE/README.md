@@ -28,7 +28,7 @@ A Variational Autoencoder was used to learn the normal HTTP traffic distribution
   - Outputs mean (`μ`) and log variance (`logvar`) for latent space representation.
 
 - **Latent Space Sampling**:
-  - A reparameterization trick was used:  
+  - A reparameterization was used:  
     `z = μ + ε * exp(0.5 * logvar)`, where `ε` is sampled from a standard normal distribution.
 
 - **Decoder**:
@@ -51,15 +51,17 @@ A Variational Autoencoder was used to learn the normal HTTP traffic distribution
 - **Dropout Probability**: 0.2
 - **Number of Latent Dimensions**: 8 (iterated from 2-16)
 
----
+The best-performing model on the training set, based on validation loss, was saved and loaded for use on the test set. The training progress can be seen below.
+![Loss Curve](TrainingProgress.png)
+
 
 ## Evaluation Metrics
-The best-performing model on the training set, based on validation loss, was saved and loaded for use on the test set. Anomalies were detected in the test set using **reconstruction loss**. Various percentile thresholds were tested to optimize detection performance.
+Anomalies were detected in the test set using **reconstruction loss**. Various percentile thresholds were tested to optimize detection performance.
 
 - **Precision-Recall Curve**: Used to determine the optimal threshold for classifiying a data point as an anomaly.
 ![Precision-Recall Curve](PRCurve.png)
 
-- **Final Threshold**: Selected based on the best F1-score.
+- **Final Threshold**: 69.2557 selected based on the best F1-score.
 
 ### Final Performance:
 - **Precision**: 0.9529
