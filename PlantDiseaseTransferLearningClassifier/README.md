@@ -1,4 +1,4 @@
-# Plant Disease Classification using Transfer Learning
+# Multi-class Plant Disease Classification using Transfer Learning
 
 ## Overview
 This project aims to classify plant diseases using images from the PlantVillage dataset (from Kaggle: https://www.kaggle.com/datasets/emmarex/plantdisease/data). Two state-of-the-art deep learning architectures were used for transfer learning: **ResNet50** and **Vision Transformer (ViT)**. The better performing model in training was then used on the test dataset. The focus was on leveraging transfer learning to address the challenges of class imbalance in a multi-class classification setting. 
