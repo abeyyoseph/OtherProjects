@@ -1,7 +1,7 @@
 # Plant Disease Classification using Transfer Learning
 
 ## Overview
-This project aims to classify plant diseases using images from the PlantVillage dataset (from Kaggle: https://www.kaggle.com/datasets/emmarex/plantdisease/data). Two state-of-the-art deep learning architectures were employed: **ResNet50** and **Vision Transformer (ViT)**. The focus was on leveraging transfer learning to address the challenges of class imbalance and achieving robust performance.
+This project aims to classify plant diseases using images from the PlantVillage dataset (from Kaggle: https://www.kaggle.com/datasets/emmarex/plantdisease/data). Two state-of-the-art deep learning architectures were used for transfer learning: **ResNet50** and **Vision Transformer (ViT)**. The better performing model in training was then used on the test dataset. The focus was on leveraging transfer learning to address the challenges of class imbalance in a multi-class classification setting. 
 
 ---
 
@@ -38,32 +38,32 @@ This project aims to classify plant diseases using images from the PlantVillage 
 ### Loss and Optimization
 - **Loss function**: Weighted cross-entropy loss to address class imbalance.
 - **Optimizer**: AdamW with a learning rate of 0.001 and weight decay of 0.001.
-- **Scheduler**: Reduced learning rate by 0.5 if validation loss plateaued for 5 epochs.
 - **Save best model**: The weights from the best performing model on the validation data is saved and used on the test data.  
 
 ### Evaluation Metrics
 Due to class imbalance, performance was evaluated using:
-- Accuracy
-- Precision
-- Recall
-- F1 Score (primary focus)
+- F1 macro score (unweighted mean of F1 scores across all classes)
 
 ---
 
-## Results
+## Training Results
 ### ResNet50
-- **Test Loss**: 0.1682  
-- **Accuracy**: 93.73%  
-- **Precision**: 0.9406  
-- **Recall**: 0.9373  
-- **F1 Score**: 0.9367  
+- **Validation F1-macro Score**: 0.9367  
 
 ### Vision Transformer (ViT)
-- **Test Loss**: 0.0825  
-- **Accuracy**: 97.35%  
-- **Precision**: 0.9741  
-- **Recall**: 0.9735  
-- **F1 Score**: 0.9736  
+- **Validation F1-macro Score**: 0.9736  
+
+- The ViT based model significantly outperformed the ResNet50 model and its training progress can be seen below.  
+![Training Progress](TrainingProgress.png)
+
+## Test Results
+### Vision Transformer (ViT)
+- **Accuracy**: 97.71%  
+- **Precision**: 0.9732  
+- **Recall**: 0.9787  
+- **F1 Score**: 0.9758  
+
+![Performance for the VisionTransformer based model](TransformerPerformance.png)
 
 ---
 
@@ -74,7 +74,5 @@ Due to class imbalance, performance was evaluated using:
 ---
 
 ## Future Work
-- Due to compute/time considerations, I limited the training to 5 epochs with a learning rate of 0.001. With more resources, I would have performed a granular trade study with these hyper-parameters to further improve performance.   
-
-![Performance for the VisionTransformer based model](TransformerPerformance.png)
+- Due to compute/time considerations, I limited the training to 10 epochs with a learning rate of 0.001. With more resources, I would have performed a granular trade study with all hyper-parameters to further improve performance.   
 
