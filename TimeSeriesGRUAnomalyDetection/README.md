@@ -60,7 +60,7 @@ After 50 epochs of training, the model achieved the following results on the tes
 - **Precision**: 0.73
 - **Recall**: 0.78
 - **F1 Score**: 0.72  
-
+- **Per-Class Metrics**:  
 ![Per Class](PerClass.png)  
 
 The per-class metrics indicate that the model is very precise when predicting a sample is not an anomaly, due to its high precision on class 0. It has high recall for the anomaly class, meaning it is not missing a significant amount of anomaly samples. The model has relatively low precision, 0.52, on the anomaly class, however, indicating many false positives are being predicted. This relationship can be tuned based on the goals for the model (high recall vs high precision, what are the consequences of a false positive vs false negative, etc.).  
