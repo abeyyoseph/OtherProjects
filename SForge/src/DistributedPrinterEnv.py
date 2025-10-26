@@ -8,42 +8,80 @@ from Job import Job
 SHIFT_OVER = 480  # 8-hour shift in minutes
 
 class DistributedPrinterEnv(gym.Env):
-    def __init__(self, num_printers=3, total_jobs=10):
-        self.num_printers = num_printers
-        self.total_jobs = total_jobs
+    def __init__(self, max_printers=10, max_jobs=15):
+        self.max_printers = max_printers
+        self.max_jobs = max_jobs
+
+        # default placeholders (actual values randomized on reset)
+        self.num_printers = 0
+        self.num_jobs = 0
         self.current_min = 0
-        self.step_duration = 2
+        self.step_duration = 2 # 2 mins pass every step
 
         # reward weights
         self.alpha1 = 1.0
         self.alpha2 = 0.5
         self.alpha3 = 2.0
 
-        # gym spaces
-        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(num_printers * 3,), dtype=np.float32)
-        self.action_space = spaces.Discrete(num_printers)
+        # temporary gym spaces — will be resized after first reset
+        # start with minimal valid dimensions to satisfy Gym interface
+        self.observation_space = spaces.Box(
+            low=0.0, high=1.0, shape=(max_printers * 3,), dtype=np.float32
+        )
+        self.action_space = spaces.Discrete(max_printers)
 
-        # instantiate printers and jobs
-        self.printers = [Printer(i) for i in range(num_printers)]
-        self.jobs = [Job(np.random.randint(10, 60), np.random.randint(50, 200)) for _ in range(total_jobs)]
-        self.pending_jobs = list(self.jobs)
+        # initialize empty structures
+        self.printers = []
+        self.jobs = []
+        self.pending_jobs = []
 
         self.completed_jobs_this_step = []
         self.failed_jobs_this_step = []
         self.total_completed_jobs = 0
         self.assignments_to_failed_printers = []
 
-        print(f"[INIT] Environment created with {self.num_printers} printers and {self.total_jobs} jobs.")
+        print("[INIT] Environment initialized — printers and jobs will be created on reset.")
 
     def reset(self):
         print("\n[RESET] Resetting environment...")
+
+        # Randomize active environment parameters (but don’t redefine spaces)
+        self.num_printers = np.random.randint(2, self.max_printers + 1)
+        self.num_jobs = np.random.randint(2, self.max_jobs + 1)
+
+        # Recreate printers
+        self.printers = [Printer(i) for i in range(self.num_printers)]
+
+        # Generate randomized jobs
+        self.jobs = [
+            Job(
+                estimated_duration=np.random.randint(10, 100),     # duration 10–100
+                required_material=np.random.randint(50, 300),      # material 50–300
+                priority=np.random.randint(0, 3),                  # priority 0–2
+                split_potential=np.random.choice([True, False])    # randomly splittable
+            )
+            for _ in range(self.num_jobs)
+        ]
+
+        # Reset dynamic state
         self.current_min = 0
-        for p in self.printers:
-            p.reset()
         self.pending_jobs = list(self.jobs)
         self.total_completed_jobs = 0
+
+        # Construct padded observation
+        obs = np.zeros(self.observation_space.shape, dtype=np.float32)
+        obs[:self.num_printers * 3] = np.random.random(self.num_printers * 3)
+
+        # Logging
+        print(f"[RESET] Environment randomized:")
+        print(f"        Printers: {self.num_printers}")
+        print(f"        Jobs: {self.num_jobs}")
+        print(f"        Example job durations/materials: "
+            f"{[j.estimated_duration for j in self.jobs[:3]]} / "
+            f"{[j.required_material for j in self.jobs[:3]]}")
         print(f"[RESET] Environment reset complete. {len(self.pending_jobs)} jobs ready.")
-        return self._get_observation()
+
+        return obs, {}
 
     def step(self, action):
         print(f"\n[STEP] Current minute: {self.current_min}, Action taken: Assign to printer {action}")
@@ -107,10 +145,10 @@ class DistributedPrinterEnv(gym.Env):
         return np.array(obs, dtype=np.float32)
 
     def _compute_reward(self):
-        throughput_gain = len(self.completed_jobs_this_step) / max(1, self.total_jobs)
+        throughput_gain = len(self.completed_jobs_this_step) / max(1, self.num_jobs)
         idle_time = sum(p.state == PrinterState.IDLE for p in self.printers) / len(self.printers)
         failure_penalty = (
-            len(self.failed_jobs_this_step) / max(1, self.total_jobs) +
+            len(self.failed_jobs_this_step) / max(1, self.num_jobs) +
             len(self.assignments_to_failed_printers) / max(1, self.num_printers)
         )
         reward = (self.alpha1 * throughput_gain - self.alpha2 * idle_time - self.alpha3 * failure_penalty)
@@ -119,7 +157,7 @@ class DistributedPrinterEnv(gym.Env):
         return reward_clipped
 
     def _check_done(self):
-        done = self.current_min >= SHIFT_OVER or self.total_completed_jobs >= self.total_jobs
+        done = self.current_min >= SHIFT_OVER or self.total_completed_jobs >= self.num_jobs
         if done:
             print(f"[DONE] Simulation complete at {self.current_min} minutes. Total jobs completed: {self.total_completed_jobs}")
         return done
@@ -135,14 +173,11 @@ class DistributedPrinterEnv(gym.Env):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print("Usage: python3 DistributedPrinterEnv.py <num_printers> <num_jobs>")
+    if len(sys.argv) != 1:
+        print("Usage: python3 DistributedPrinterEnv.py")
         exit()
 
-    desired_num_printers = int(sys.argv[1])
-    desired_num_jobs = int(sys.argv[2])
-
-    env = DistributedPrinterEnv(desired_num_printers, desired_num_jobs)
+    env = DistributedPrinterEnv()
     env.execute_simulation()
 
 
